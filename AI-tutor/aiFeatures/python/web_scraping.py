@@ -88,6 +88,15 @@ def search_best_link(query, api_key):
     return best_link
 
 def web_response(query):
+    """
+    Search for and scrape content from educational websites.
+    
+    Args:
+        query: User search query
+        
+    Returns:
+        Scraped content text or error message
+    """
     api_key = serp_api_key
     query = query.strip()
     scraped_contents = ""  # Initialize the variable
