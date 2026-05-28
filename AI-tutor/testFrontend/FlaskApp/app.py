@@ -49,6 +49,7 @@ def chunk_text(text, max_length=150):
 
 @app.route("/")
 def home():
+    """Render the main chat interface."""
     return render_template("index.html")
 
 @app.route("/clear-session", methods=["POST"])
