@@ -40,6 +40,13 @@ def search_best_link(query, api_key):
     Use SerpAPI to search Google with a query restricted to allowed websites.
     From the organic results, take the first three allowed results (in order)
     and select the one with the highest title similarity to the query.
+    
+    Args:
+        query: Search query string
+        api_key: SerpAPI key
+        
+    Returns:
+        Best matching URL or None
     """
     # Construct a site filter string using Google operator "site:"
     site_filter = " OR ".join([f"site:{site}" for site in ALLOWED_SITES])
