@@ -23,7 +23,16 @@ ALLOWED_SITES = [
 ]
 
 def similar(a, b):
-    """Return a similarity ratio between two strings."""
+    """
+    Return a similarity ratio between two strings.
+    
+    Args:
+        a: First string
+        b: Second string
+        
+    Returns:
+        Similarity ratio between 0 and 1
+    """
     return SequenceMatcher(None, a.lower(), b.lower()).ratio()
 
 def search_best_link(query, api_key):
