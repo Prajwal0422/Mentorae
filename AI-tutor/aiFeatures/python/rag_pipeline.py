@@ -173,7 +173,7 @@ def retrieve_answer(query: str, vector_store: FAISS, k: int = 3) -> str:
     Args:
         query: The search query
         vector_store: FAISS vector store to search in
-        k: Number of results to return
+        k: Number of top results to return (default: 3)
         
     Returns:
         Formatted string with search results
