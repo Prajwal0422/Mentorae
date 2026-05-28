@@ -23,8 +23,11 @@ logging.basicConfig(level=logging.INFO)
 session_manager = ChatSessionManager()
 default_session_id = "user_session_001"  # Default session ID
 
-# Ask user whether they want to input a single file, folder, or nothing
 def initialize_rag():
+    """
+    Initialize RAG system by prompting user for PDF input options.
+    Supports single file, multiple files, folder, or no PDFs.
+    """
     choice = input("\nDo you want to load a (1) single PDF file, (2) Multiple PDFs, (3) Folder of PDFs or (0) nothing? (Enter 0, 1, 2 or 3): ").strip()
 
     if choice == "1":
