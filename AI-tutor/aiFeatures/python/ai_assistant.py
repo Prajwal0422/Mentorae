@@ -74,8 +74,16 @@ if vector_store:
 else:
     print("\n⚠️ No PDFs loaded. The AI will answer questions without document-based knowledge.")
     
-# Markdown converter
 def convert_to_markdown(html_text):
+    """
+    Convert HTML text to Markdown format.
+    
+    Args:
+        html_text: HTML formatted text string
+        
+    Returns:
+        Markdown formatted text
+    """
     converter = html2text.HTML2Text()
     converter.ignore_links = False  # Set to True if you want to remove links
     converter.body_width = 0  # Prevents automatic line wrapping
