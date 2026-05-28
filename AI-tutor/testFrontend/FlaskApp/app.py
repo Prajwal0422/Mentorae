@@ -17,7 +17,7 @@ from aiFeatures.python.rag_pipeline import index_pdfs, retrieve_answer
 
 app = Flask(__name__)
 app.secret_key = os.urandom(24)  # Add a secret key for sessions
-CORS(app)  # Enable CORS for frontend requests
+CORS(app, resources={r"/*": {"origins": "*"}})  # Enable CORS for frontend requests
 
 # Global variables
 vector_store = None
