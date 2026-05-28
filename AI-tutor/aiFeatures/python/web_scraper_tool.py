@@ -74,7 +74,15 @@ def scrape_wikipedia(url):
     return "\n".join(text)
 
 def scrape_url(url):
-    """Chooses the appropriate scraper based on URL"""
+    """
+    Scrapes main content from educational websites.
+    
+    Args:
+        url: Website URL to scrape
+        
+    Returns:
+        Extracted text content or error message
+    """
     if "w3schools.com" in url:
         return scrape_w3schools(url)
     elif "tutorialspoint.com" in url:
