@@ -229,6 +229,9 @@ function setAIMessageToThinking(messageElement) {
 }
 
 function sendMessage() {
+    /**
+     * Send user message to backend and display AI response
+     */
     let userInput = document.getElementById("user-input").value.trim();
     if (userInput === "") return;
 
