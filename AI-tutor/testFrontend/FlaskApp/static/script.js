@@ -33,6 +33,10 @@ function clearSession() {
 }
 
 function displayFileNames(files) {
+    /**
+     * Display uploaded file names in the chat interface
+     * @param {FileList} files - List of uploaded files
+     */
     const chatBox = document.getElementById("chat-box");
     const fileNameDisplay = document.createElement("div");
     fileNameDisplay.className = "file-name-display";
