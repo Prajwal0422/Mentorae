@@ -28,7 +28,16 @@ import re
 
 
 def chunk_text(text, max_length=150):
-    """Split text into smaller chunks at sentence boundaries for faster TTS processing."""
+    """
+    Split text into smaller chunks at sentence boundaries for faster TTS processing.
+    
+    Args:
+        text: Input text to split
+        max_length: Maximum length of each chunk
+        
+    Returns:
+        List of text chunks
+    """
     # Split by sentences
     sentences = re.split(r'(?<=[.!?])\s+', text)
     chunks = []
