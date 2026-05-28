@@ -368,6 +368,9 @@ function stopListening() {
 }
 
 function stopSpeech() {
+    /**
+     * Stop ongoing text-to-speech playback
+     */
     // Visual feedback that the button was clicked
     const stopButton = document.querySelector('.stop-button');
     const originalContent = stopButton.innerHTML;
