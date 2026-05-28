@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", function() {
     clearSession();
 });
 
-// Global variables
+// Global variables for voice interaction state
 let isListening = false;
 
 // Function to clear session on page load/refresh
