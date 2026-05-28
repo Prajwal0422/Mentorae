@@ -14,8 +14,10 @@ document.addEventListener("DOMContentLoaded", function() {
 // Global variables for voice interaction state
 let isListening = false;
 
-// Function to clear session on page load/refresh
 function clearSession() {
+    /**
+     * Clear session on page load/refresh to reset RAG state
+     */
     fetch("/clear-session", {
         method: "POST"
     })
