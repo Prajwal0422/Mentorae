@@ -133,7 +133,17 @@ def initialize_rag():
 
 @app.route("/ask", methods=["POST"])
 def ask():
-    """Handles text input and returns AI response with chat history management."""
+    """
+    Handles text input and returns AI response with chat history management.
+    
+    Processes user queries through:
+    - RAG retrieval (if PDFs loaded)
+    - Web scraping (if no PDFs)
+    - Multi-agent AI response generation
+    
+    Returns:
+        JSON response with AI answer and source information
+    """
     global vector_store, session_manager, default_session_id
     data = request.json if request.json else {}
     user_query = data.get("query")
