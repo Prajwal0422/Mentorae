@@ -90,6 +90,7 @@ def convert_to_markdown(html_text):
     return converter.handle(html_text)
 
 def main():
+    """Main function to run the AI Assistant with text or voice mode."""
     print("\nWelcome to AI Assistant!")
     text_to_speech("Welcome to AI Assistant!")
     mode = input("\nChoose mode (text [1] / voice [2]): ").strip().lower()
