@@ -63,7 +63,12 @@ def home():
 
 @app.route("/clear-session", methods=["POST"])
 def clear_session():
-    """Clears the current RAG session and resets the vector store."""
+    """
+    Clears the current RAG session and resets the vector store.
+    
+    Returns:
+        JSON response with success status
+    """
     global vector_store, session_manager
     
     try:
