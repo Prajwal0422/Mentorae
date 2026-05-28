@@ -209,7 +209,15 @@ def process_voice():
 
 @app.route("/text-to-speech", methods=["POST"])
 def process_speech():
-    """Converts text to speech."""
+    """
+    Converts text to speech using pyttsx3 TTS engine.
+    
+    Accepts:
+        JSON with 'text' field
+        
+    Returns:
+        JSON response with success status
+    """
     data = request.json if request.json else {}
     text = data.get("text")
     
