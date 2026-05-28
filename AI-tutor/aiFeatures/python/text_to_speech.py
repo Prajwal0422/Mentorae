@@ -6,6 +6,7 @@ import time
 speech_process = None
 
 def speak_text(text):
+    """Initialize TTS engine and speak the provided text"""
     engine = pyttsx3.init()
      # Use the Microsoft Speech API for more voices (Windows)
     voices = engine.getProperty('voices')
