@@ -27,7 +27,7 @@ class ChatSession:
     session_id: str
     messages: List[Message] = field(default_factory=list)
     metadata: Dict = field(default_factory=dict)
-    max_history_length: int = 20  # Default limit for messages to store
+    max_history_length: int = 20  # Limit conversation history to prevent context overflow
     
     def add_message(self, role: str, content: str) -> None:
         """Add a message to the chat history."""
