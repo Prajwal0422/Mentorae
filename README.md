@@ -165,28 +165,4 @@ Copy code
 
 ---
 
-If you want — I can also build for **Mentorae**:  
 
-- ✅ a **`.gitignore` file**  
-- ✅ a **LICENSE (MIT)** template  
-- ✅ a **minimal CONTRIBUTING.md**  
-- ✅ a **release tag block** ready to paste  
-
-Do you want me to generate those now?
-::contentReference[oaicite:4]{index=4}
-
-
-
-
-
-
-
-
-
-Sources
-
-
-
-
-
-ChatGPT can make mistakes. Ch
