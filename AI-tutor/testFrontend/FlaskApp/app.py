@@ -234,7 +234,12 @@ def process_speech():
     
 @app.route("/stop-speech", methods=["POST"])
 def handle_stop_speech():
-    """Stops ongoing speech output."""
+    """
+    Stops ongoing speech output immediately.
+    
+    Returns:
+        JSON response with operation status
+    """
     try:
         success = stop_speech()
         return jsonify({"message": "Speech stopped", "success": success})
