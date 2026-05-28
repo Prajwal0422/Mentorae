@@ -86,7 +86,16 @@ def clear_session():
 
 @app.route("/initialize-rag", methods=["POST"])
 def initialize_rag():
-    """Handles indexing PDFs from uploaded files or a folder path."""
+    """
+    Handles indexing PDFs from uploaded files or a folder path.
+    
+    Accepts:
+        - Multiple PDF files via form-data
+        - Folder path via form parameter
+        
+    Returns:
+        JSON response with initialization status
+    """
     global vector_store
     
     try:
