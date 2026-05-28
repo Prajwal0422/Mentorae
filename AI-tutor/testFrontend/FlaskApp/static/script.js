@@ -48,6 +48,10 @@ function displayFileNames(files) {
 }
 
 function handleFileUpload(files) {
+    /**
+     * Handle PDF file uploads and initialize RAG system
+     * @param {FileList} files - Uploaded PDF files
+     */
     if (!files || files.length === 0) return;
 
     // Display file names in chat
