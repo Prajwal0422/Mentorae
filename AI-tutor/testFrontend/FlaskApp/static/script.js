@@ -182,6 +182,10 @@ function handleFolderUpload(files) {
 }
 
 function updateRagStatus(isActive) {
+    /**
+     * Update the RAG status indicator in the UI
+     * @param {boolean} isActive - Whether RAG system is active
+     */
     const statusDot = document.querySelector('.status-dot');
     const statusText = document.querySelector('.status-text');
     
