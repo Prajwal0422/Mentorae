@@ -12,8 +12,12 @@ from speech_to_text import speech_to_text
 from text_to_speech import say as text_to_speech
 from rag_pipeline import retrieve_answer, index_pdfs
 
-# Load environment variables
+# Load environment variables from .env file
 load_dotenv()
+
+# Initialize logging
+import logging
+logging.basicConfig(level=logging.INFO)
 
 # Create a session manager to handle chat context
 session_manager = ChatSessionManager()
