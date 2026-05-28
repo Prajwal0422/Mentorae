@@ -4,7 +4,7 @@ import speech_recognition as sr
 stop_listening = False
 
 def speech_to_text():
-    """Converts speech to text using SpeechRecognition with ability to stop"""
+    """Converts speech to text using Google Speech Recognition API"""
     global stop_listening
     stop_listening = False
     
