@@ -194,7 +194,12 @@ def ask():
     
 @app.route("/speech-to-text", methods=["POST"])
 def process_voice():
-    """Handles voice input and converts it to text."""
+    """
+    Handles voice input and converts it to text using Google Speech Recognition.
+    
+    Returns:
+        JSON response with transcribed text
+    """
     try:
         user_query = speech_to_text()
         return jsonify({"query": user_query})
