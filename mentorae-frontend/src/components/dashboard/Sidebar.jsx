@@ -12,7 +12,8 @@ import {
   X,
   Award,
   Calendar,
-  MessageSquare
+  MessageSquare,
+  Target
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 
@@ -23,6 +24,7 @@ const Sidebar = ({ isOpen, onClose }) => {
   const studentLinks = [
     { to: '/dashboard/student', icon: LayoutDashboard, label: 'Dashboard' },
     { to: '/dashboard/ai-mentor', icon: MessageSquare, label: 'AI Mentor' },
+    { to: '/dashboard/recommendations', icon: Target, label: 'Recommendations' },
     { to: '/dashboard/student/courses', icon: BookOpen, label: 'My Courses' },
     { to: '/dashboard/student/analytics', icon: BarChart3, label: 'Analytics' },
     { to: '/dashboard/student/calendar', icon: Calendar, label: 'Calendar' },

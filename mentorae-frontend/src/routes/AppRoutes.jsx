@@ -10,6 +10,7 @@ import Signup from '../pages/auth/Signup';
 import ForgotPassword from '../pages/auth/ForgotPassword';
 import AIMentor from '../pages/AIMentor';
 import StudyPlanGenerator from '../components/ai/StudyPlanGenerator';
+import RecommendationEngine from '../components/ai/RecommendationEngine';
 
 // Layouts
 import DashboardLayout from '../layouts/DashboardLayout';
@@ -49,6 +50,7 @@ const AppRoutes = () => {
         <Route path="student" element={<StudentDashboard />} />
         <Route path="ai-mentor" element={<AIMentor />} />
         <Route path="study-plan" element={<StudyPlanGenerator />} />
+        <Route path="recommendations" element={<RecommendationEngine />} />
         <Route path="mentor" element={<div className="p-8"><h1 className="text-2xl font-bold">Mentor Dashboard Coming Soon</h1></div>} />
         <Route path="admin" element={<div className="p-8"><h1 className="text-2xl font-bold">Admin Dashboard Coming Soon</h1></div>} />
       </Route>
