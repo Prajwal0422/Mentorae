@@ -17,7 +17,8 @@
     "framer-motion": "^10.16.16",
     "recharts": "^2.10.3",
     "axios": "^1.6.2",
-    "lucide-react": "^0.294.0"
+    "lucide-react": "^0.294.0",
+    "react-markdown": "^9.0.1"
   },
   "devDependencies": {
     "tailwindcss": "^3.3.6",
