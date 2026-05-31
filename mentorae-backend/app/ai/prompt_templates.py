@@ -204,5 +204,48 @@ Your explanation should:
 Make it engaging and easy to understand while maintaining accuracy."""
 
 
+    @staticmethod
+    def get_exam_preparation_prompt(
+        exam_date: str,
+        subjects: list,
+        student_context: Dict[str, Any]
+    ) -> str:
+        """
+        Generate exam preparation roadmap prompt.
+        
+        Args:
+            exam_date: Date of the exam
+            subjects: List of subjects for exam
+            student_context: Student's academic information
+            
+        Returns:
+            Formatted prompt string
+        """
+        return f"""{PromptTemplates.get_mentor_system_prompt()}
+
+Create a comprehensive exam preparation roadmap for:
+
+Exam Date: {exam_date}
+Subjects: {', '.join(subjects)}
+
+Student Profile:
+- Department: {student_context.get('department', 'Not specified')}
+- Semester: {student_context.get('semester', 'Not specified')}
+- CGPA: {student_context.get('cgpa', 'Not specified')}
+- Weak Subjects: {', '.join(student_context.get('weak_subjects', ['None']))}
+
+Create a strategic preparation plan that includes:
+1. Timeline breakdown (weeks/days before exam)
+2. Subject-wise preparation strategy
+3. Topic prioritization based on importance and difficulty
+4. Revision schedule
+5. Practice test schedule
+6. Last-minute revision tips
+7. Exam day strategies
+8. Stress management techniques
+
+Make it practical and achievable."""
+
+
 # Singleton instance
 prompt_templates = PromptTemplates()
