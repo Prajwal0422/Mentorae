@@ -87,6 +87,10 @@ app.include_router(student_router, prefix="/api")
 app.include_router(mentor_router, prefix="/api")
 app.include_router(admin_router, prefix="/api")
 
+# Import and include AI router
+from app.ai.routes.ai import router as ai_router
+app.include_router(ai_router, prefix="/api")
+
 
 # Exception handlers
 @app.exception_handler(404)
