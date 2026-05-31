@@ -10,7 +10,9 @@ import {
   Lightbulb,
   Loader,
   History,
-  Trash2
+  Trash2,
+  AlertCircle,
+  RefreshCw
 } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import Card from '../components/common/Card';
@@ -23,6 +25,8 @@ const AIMentor = () => {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
+  const [initialLoading, setInitialLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [showHistory, setShowHistory] = useState(false);
   const [conversationId] = useState(`conv_${Date.now()}`);
   const messagesEndRef = useRef(null);
@@ -48,6 +52,8 @@ const AIMentor = () => {
   }, []);
 
   const loadChatHistory = async () => {
+    setInitialLoading(true);
+    setError(null);
     try {
       const data = await getChatHistory(20);
       if (data.success && data.history.length > 0) {
@@ -65,6 +71,8 @@ const AIMentor = () => {
     } catch (error) {
       console.error('Error loading history:', error);
       setWelcomeMessage();
+    } finally {
+      setInitialLoading(false);
     }
   };
 
@@ -95,6 +103,7 @@ const AIMentor = () => {
     setMessages(prev => [...prev, userMessage]);
     setInput('');
     setLoading(true);
+    setError(null);
 
     try {
       const data = await sendChatMessage(input, conversationId);
@@ -112,6 +121,7 @@ const AIMentor = () => {
       }
     } catch (error) {
       console.error('Error:', error);
+      setError(error.message);
       
       // Mock response for demo
       const mockResponse = {
@@ -176,52 +186,98 @@ const AIMentor = () => {
 
       {/* Chat Container */}
       <Card className="flex-1 flex flex-col overflow-hidden p-0">
+        {/* Error Banner */}
+        {error && (
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="bg-red-50 border-b border-red-200 p-3"
+          >
+            <div className="flex items-center gap-2 text-red-600">
+              <AlertCircle className="w-4 h-4" />
+              <span className="text-sm">{error}</span>
+              <button
+                onClick={() => setError(null)}
+                className="ml-auto text-red-600 hover:text-red-700"
+              >
+                <RefreshCw className="w-4 h-4" />
+              </button>
+            </div>
+          </motion.div>
+        )}
+
         {/* Messages */}
         <div className="flex-1 overflow-y-auto p-6 space-y-4">
-          <AnimatePresence>
-            {messages.map((message, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0 }}
-                className={`flex gap-3 ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}
-              >
-                {message.role === 'assistant' && (
-                  <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary-500 to-secondary-500 flex items-center justify-center text-white flex-shrink-0">
-                    <Bot className="w-5 h-5" />
+          {initialLoading ? (
+            // Skeleton Loader
+            <div className="space-y-4">
+              {[1, 2, 3].map((i) => (
+                <div key={i} className="flex gap-3">
+                  <div className="w-8 h-8 rounded-full bg-gray-200 animate-pulse" />
+                  <div className="flex-1 space-y-2">
+                    <div className="h-4 bg-gray-200 rounded animate-pulse w-3/4" />
+                    <div className="h-4 bg-gray-200 rounded animate-pulse w-1/2" />
                   </div>
-                )}
-                
-                <div
-                  className={`max-w-[70%] rounded-2xl p-4 ${
-                    message.role === 'user'
-                      ? 'bg-primary-600 text-white'
-                      : 'bg-gray-100 text-gray-900'
-                  }`}
-                >
-                  {message.role === 'assistant' ? (
-                    <div className="prose prose-sm max-w-none">
-                      <ReactMarkdown>{message.content}</ReactMarkdown>
-                    </div>
-                  ) : (
-                    <p className="whitespace-pre-wrap">{message.content}</p>
-                  )}
                 </div>
+              ))}
+            </div>
+          ) : (
+            <AnimatePresence>
+              {messages.map((message, index) => (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.3 }}
+                  className={`flex gap-3 ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}
+                >
+                  {message.role === 'assistant' && (
+                    <motion.div
+                      initial={{ scale: 0 }}
+                      animate={{ scale: 1 }}
+                      className="w-8 h-8 rounded-full bg-gradient-to-br from-primary-500 to-secondary-500 flex items-center justify-center text-white flex-shrink-0"
+                    >
+                      <Bot className="w-5 h-5" />
+                    </motion.div>
+                  )}
+                  
+                  <motion.div
+                    initial={{ scale: 0.95 }}
+                    animate={{ scale: 1 }}
+                    className={`max-w-[70%] rounded-2xl p-4 ${
+                      message.role === 'user'
+                        ? 'bg-primary-600 text-white'
+                        : 'bg-gray-100 text-gray-900'
+                    }`}
+                  >
+                    {message.role === 'assistant' ? (
+                      <div className="prose prose-sm max-w-none">
+                        <ReactMarkdown>{message.content}</ReactMarkdown>
+                      </div>
+                    ) : (
+                      <p className="whitespace-pre-wrap">{message.content}</p>
+                    )}
+                  </motion.div>
 
-                {message.role === 'user' && (
-                  <div className="w-8 h-8 rounded-full bg-gradient-to-br from-gray-600 to-gray-700 flex items-center justify-center text-white flex-shrink-0">
-                    <User className="w-5 h-5" />
-                  </div>
-                )}
-              </motion.div>
-            ))}
-          </AnimatePresence>
+                  {message.role === 'user' && (
+                    <motion.div
+                      initial={{ scale: 0 }}
+                      animate={{ scale: 1 }}
+                      className="w-8 h-8 rounded-full bg-gradient-to-br from-gray-600 to-gray-700 flex items-center justify-center text-white flex-shrink-0"
+                    >
+                      <User className="w-5 h-5" />
+                    </motion.div>
+                  )}
+                </motion.div>
+              ))}
+            </AnimatePresence>
+          )}
 
           {loading && (
             <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
               className="flex gap-3"
             >
               <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary-500 to-secondary-500 flex items-center justify-center text-white">
@@ -231,6 +287,24 @@ const AIMentor = () => {
                 <div className="flex items-center gap-2">
                   <Loader className="w-4 h-4 animate-spin text-primary-600" />
                   <span className="text-gray-600">Thinking...</span>
+                  <motion.div
+                    className="flex gap-1"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                  >
+                    {[0, 1, 2].map((i) => (
+                      <motion.div
+                        key={i}
+                        className="w-2 h-2 bg-primary-400 rounded-full"
+                        animate={{ y: [0, -8, 0] }}
+                        transition={{
+                          duration: 0.6,
+                          repeat: Infinity,
+                          delay: i * 0.2
+                        }}
+                      />
+                    ))}
+                  </motion.div>
                 </div>
               </div>
             </motion.div>
