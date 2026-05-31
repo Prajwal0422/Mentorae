@@ -8,18 +8,23 @@ import {
   BookOpen, 
   Calendar,
   Lightbulb,
-  Loader
+  Loader,
+  History,
+  Trash2
 } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import Card from '../components/common/Card';
 import Button from '../components/common/Button';
 import { useAuth } from '../context/AuthContext';
+import { sendChatMessage, getChatHistory } from '../services/aiService';
 
 const AIMentor = () => {
   const { user } = useAuth();
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
+  const [showHistory, setShowHistory] = useState(false);
+  const [conversationId] = useState(`conv_${Date.now()}`);
   const messagesEndRef = useRef(null);
 
   const suggestedPrompts = [
@@ -38,7 +43,32 @@ const AIMentor = () => {
   }, [messages]);
 
   useEffect(() => {
-    // Welcome message
+    // Load chat history
+    loadChatHistory();
+  }, []);
+
+  const loadChatHistory = async () => {
+    try {
+      const data = await getChatHistory(20);
+      if (data.success && data.history.length > 0) {
+        // Convert history to messages format
+        const historyMessages = data.history.reverse().map(item => ([
+          { role: 'user', content: item.message, timestamp: item.timestamp },
+          { role: 'assistant', content: item.response, timestamp: item.timestamp }
+        ])).flat();
+        
+        setMessages(historyMessages);
+      } else {
+        // Welcome message if no history
+        setWelcomeMessage();
+      }
+    } catch (error) {
+      console.error('Error loading history:', error);
+      setWelcomeMessage();
+    }
+  };
+
+  const setWelcomeMessage = () => {
     setMessages([
       {
         role: 'assistant',
@@ -46,7 +76,12 @@ const AIMentor = () => {
         timestamp: new Date().toISOString()
       }
     ]);
-  }, [user]);
+  };
+
+  const clearHistory = () => {
+    setMessages([]);
+    setWelcomeMessage();
+  };
 
   const handleSend = async () => {
     if (!input.trim() || loading) return;
@@ -62,27 +97,19 @@ const AIMentor = () => {
     setLoading(true);
 
     try {
-      // TODO: Replace with actual API call
-      const response = await fetch('/api/ai/chat', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('token')}`
-        },
-        body: JSON.stringify({ message: input })
-      });
+      const data = await sendChatMessage(input, conversationId);
 
-      if (!response.ok) throw new Error('Failed to get response');
+      if (data.success) {
+        const assistantMessage = {
+          role: 'assistant',
+          content: data.response,
+          timestamp: data.timestamp
+        };
 
-      const data = await response.json();
-
-      const assistantMessage = {
-        role: 'assistant',
-        content: data.response,
-        timestamp: data.timestamp
-      };
-
-      setMessages(prev => [...prev, assistantMessage]);
+        setMessages(prev => [...prev, assistantMessage]);
+      } else {
+        throw new Error(data.error || 'Failed to get response');
+      }
     } catch (error) {
       console.error('Error:', error);
       
@@ -125,6 +152,24 @@ const AIMentor = () => {
           <div>
             <h1 className="text-2xl font-bold text-gray-900">AI Academic Mentor</h1>
             <p className="text-gray-600">Your personal learning assistant</p>
+          </div>
+          <div className="ml-auto flex gap-2">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => setShowHistory(!showHistory)}
+              icon={<History className="w-4 h-4" />}
+            >
+              History
+            </Button>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={clearHistory}
+              icon={<Trash2 className="w-4 h-4" />}
+            >
+              Clear
+            </Button>
           </div>
         </div>
       </motion.div>
