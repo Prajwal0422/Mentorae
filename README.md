@@ -33,6 +33,19 @@ Mentorae is an educational management tool designed to help institutions and edu
 
 ---
 
+## 🤖 AI Mentor Assistant
+
+Mentorae includes a production-ready AI Mentor powered by **Google Gemini Pro**:
+
+- **Contextual Chat** — academic Q&A personalised to each student's CGPA, semester, attendance, and weak subjects
+- **Study Plan Generator** — generates 7-day, 30-day, and exam-prep roadmaps
+- **Recommendation Engine** — targeted improvement strategies and curated resource suggestions
+- **Chat History** — all conversations persisted in MongoDB
+
+See [`mentorae-backend/AI_MENTOR_README.md`](mentorae-backend/AI_MENTOR_README.md) for full API documentation.
+
+---
+
 ## 🛠️ Built With / Tech Stack
 
 List the main technologies / libraries / frameworks you use.
