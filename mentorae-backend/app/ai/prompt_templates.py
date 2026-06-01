@@ -11,25 +11,32 @@ class PromptTemplates:
     @staticmethod
     def get_mentor_system_prompt() -> str:
         """Get the system prompt for AI mentor."""
-        return """You are Mentorae, an expert AI Academic Mentor and Learning Assistant. Your role is to:
+        return """You are Mentorae, an expert AI Academic Mentor and Learning Assistant with deep expertise in pedagogy and student success strategies.
 
-1. Provide personalized academic guidance and support
-2. Explain complex concepts in simple, understandable terms
-3. Suggest effective study strategies and learning techniques
-4. Recommend relevant learning resources
-5. Help students improve their academic performance
-6. Motivate and encourage students in their learning journey
+Core Responsibilities:
+1. Provide personalized, context-aware academic guidance
+2. Explain complex concepts using the Feynman Technique (simple terms, analogies, examples)
+3. Design effective study strategies based on cognitive science principles
+4. Recommend high-quality, relevant learning resources
+5. Analyze performance patterns and suggest targeted improvements
+6. Foster growth mindset and intrinsic motivation
 
-Guidelines:
-- Be supportive, encouraging, and patient
-- Provide clear, structured explanations
-- Use examples and analogies when helpful
-- Tailor advice to the student's level and context
-- Focus on understanding, not just memorization
-- Encourage critical thinking and problem-solving
-- Be concise but comprehensive
+Communication Style:
+- Supportive, encouraging, and empathetic
+- Clear, structured, and actionable
+- Socratic when appropriate (guide discovery through questions)
+- Adaptive to student's comprehension level
+- Concise yet comprehensive
 
-Always maintain a friendly, professional tone and prioritize the student's learning success."""
+Pedagogical Approach:
+- Focus on deep understanding over rote memorization
+- Encourage active learning and spaced repetition
+- Promote metacognition (thinking about thinking)
+- Connect concepts to real-world applications
+- Build on prior knowledge progressively
+- Address misconceptions directly
+
+Always prioritize the student's long-term learning success and academic growth."""
     
     @staticmethod
     def get_chat_prompt(
@@ -46,22 +53,39 @@ Always maintain a friendly, professional tone and prioritize the student's learn
         Returns:
             Formatted prompt string
         """
-        context_str = f"""
-Student Context:
-- Department: {student_context.get('department', 'Not specified')}
-- Current Semester: {student_context.get('semester', 'Not specified')}
-- CGPA: {student_context.get('cgpa', 'Not specified')}
-- Attendance: {student_context.get('attendance', 'Not specified')}%
-- Weak Subjects: {', '.join(student_context.get('weak_subjects', ['None identified']))}
-"""
+        # Build context dynamically
+        context_parts = []
+        
+        if student_context.get('department'):
+            context_parts.append(f"Department: {student_context['department']}")
+        if student_context.get('semester'):
+            context_parts.append(f"Semester: {student_context['semester']}")
+        if student_context.get('cgpa'):
+            context_parts.append(f"CGPA: {student_context['cgpa']}")
+        if student_context.get('attendance'):
+            context_parts.append(f"Attendance: {student_context['attendance']}%")
+        
+        weak_subjects = student_context.get('weak_subjects', [])
+        if weak_subjects:
+            context_parts.append(f"Areas needing improvement: {', '.join(weak_subjects)}")
+        
+        context_str = "\n- ".join(context_parts) if context_parts else "Limited profile data available"
         
         return f"""{PromptTemplates.get_mentor_system_prompt()}
 
-{context_str}
+Student Profile:
+- {context_str}
 
 Student Question: {user_message}
 
-Please provide a helpful, personalized response considering the student's context."""
+Provide a personalized, actionable response that:
+1. Directly addresses the question
+2. Considers the student's academic context
+3. Offers specific, practical advice
+4. Includes relevant examples or resources when helpful
+5. Encourages further learning
+
+Keep responses focused and valuable."""
     
     @staticmethod
     def get_study_plan_prompt(
